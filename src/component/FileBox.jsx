@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react";
 import { PrevDoc } from "./PrevDoc";
 
+
+
 export function FileBox()
 
 {
-    const [selectedFile,setSelectedFile]=useState(0);
+    const [selectedFile,setSelectedFile]=useState(null);
     const [uploadedFile,setUploadedFile]=useState(false);
 
 
-    const handleclick=(event)=>{
-      setSelectedFile(event.target.files[0]);
+    const handlefilechange=(file)=>{
+      setSelectedFile(file);
       // console.log('file is ',selectedFile)
     
     };
@@ -18,16 +20,16 @@ export function FileBox()
 
     // },[selectedFile])
 
-    const handleupload= async()=>{
-      if(selectedFile){
+    const handlefileupload = async(file)=>{
+      if(file){
         const formdata =new FormData;
-        formdata.append('file',selectedFile);
+        formdata.append('file',file);
         try{
           const response=await fetch('https://api.ocr.space/parse/image',{
             method:'POST',
             body:formdata,
             headers:{
-              'apikey':'K86809603788957'
+              'apikey':'K85586486088957'
             },
             
             
@@ -52,19 +54,52 @@ export function FileBox()
        
         
       };
+      const handleclick=(event)=>
+      {
+        const file=event.target.files[0];
+        handlefilechange(file);
+      };
+      const handleDrop=(event)=>
+      {
+        event.preventDefault();
+        // const files = event.dataTransfer.files;
+        // if (files.length > 0) {
+        //   const file = files[0];
+        //   handlefilechange(file);
+        //}
+     
+      };
+      const handleDrag=(event)=>{
+        event.preventDefault();
+        const file=event.traget.files[0]
+        handlefilechange(file);
+
+      };
+      const handleupload=()=>{
+        handlefileupload(selectedFile);
+        
+
+      };
   
      
     
     
     return(
         <>
-        <div className="button">
-        <input type="file"  onChange={handleclick}></input>
-        <button onClick={handleupload}> submit</button>
-        
-       {uploadedFile  && <PrevDoc selectedFile={selectedFile}></PrevDoc>}
+        <div className="drag-drop" 
+        onDrop={handleDrop}
+        onDragOver={handleDrag}>
+          <p className="paragraph"> Drag and Drop File here  </p>
+          <label htmlFor="file-upload" > Click To Select the File   </label>
+         
+          <input type="file"  onChange={handleclick} className="upload"  id="file-upload"></input>
+          
         </div>
+       { selectedFile &&   (<button onClick={handleupload} className="submit"> submit</button>  
+        )}  
         
+          {uploadedFile  && <PrevDoc selectedFile={selectedFile}></PrevDoc>} 
+         
       
       
      
@@ -75,7 +110,4 @@ export function FileBox()
         
     );
 }
-
-
-
 
