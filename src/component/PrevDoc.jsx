@@ -1,23 +1,28 @@
 
-
 export function PrevDoc({selectedFile}){
-    const prevstyle = {
-        border:'1px solid black',
-        margin:'10px',
-        background: 'lightseagreen',
-        width: '150px',
-        
-
-       };
     return(
         <>
-        <div className="previousfile" style={prevstyle}> 
-            <p>
-                {selectedFile.name}
-                {selectedFile.type}</p>
+        <div className="previousfile" > 
+        <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">filename</th>
+      <th scope="col">type</th>
+      <th scope="col">Last modified date</th>
+      <th scope="col">Handle</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">{selectedFile.name}</th>
+      <td>{selectedFile.type}</td>
+     
+    </tr>
+
+  </tbody>
+</table>  
+           
         </div>
-        
-        
         
         </>
     );
