@@ -2,30 +2,33 @@
 import { useEffect, useState } from "react";
 import { PrevDoc } from "./PrevDoc";
 import { Popup } from "./Popup";
+import { Result } from "./Result";
 
-export function FileBox({Onsave}) 
+export function FileBox() 
 {
-  const [selectedFile, setSelectedFile] = useState(false);
-  const [uploadedFile, setUploadedFile] = useState(false);
-  const [responsefetched, Setresponsefetched] = useState(false)
-  const[popup,Setpopup]=useState(false)
+  const [selectedFile, setSelectedFile] = useState(false);         //for file selection
+  const [uploadedFiles, setUploadedFiles] = useState([ ]);         //uploading file to transmit to prevdoc for viewong recent files
+  const [responsefetched, Setresponsefetched] = useState(false)     //to check response is get
+  const[popup,Setpopup]=useState(false)                           //how recive pop up if no file is seclected
+  const[data,Setdata]=useState([])                                //for response fetched on ocr
 
-  const handlefilechange = (file) => {
+
+  const handlefilechange = (file) => {                           
     setSelectedFile(file);
  
   };
  
-  const handlefileupload = async  (file) => {
+  const handlefileupload = async  (file) => {                               //uploading file to api and fetching rsult of ocr
     if (file) {
       const formdata = new FormData;
       formdata.append('file', file);
       try {
-        const response = await fetch('https://api.ocr.space/parse/image', {
+        const response = await fetch('https://f9010836-1670-49b0-bc06-f1aa54c12857-00-2e64mw8ouzabz.pike.replit.dev/', {
           method: 'POST',
           body: formdata,
-          headers: {
-            'apikey': 'K85586486088957'
-          },
+          // headers: {
+          //   'apikey': 'K85586486088957'
+          // },
 
 
         });
@@ -34,7 +37,10 @@ export function FileBox({Onsave})
           const data = await response.json();
           console.log("ocr resulr", data);
           Setresponsefetched(true)
-          setUploadedFile(true)
+          setUploadedFiles([selectedFile].concat(uploadedFiles))
+          Setdata(data)
+          setSelectedFile(false)
+          
        
      
         }
@@ -53,10 +59,11 @@ export function FileBox({Onsave})
     console.log("gjhgh", selectedFile)
 
 
+
   };
 
   const handleclick = (event) => {
-    const file = event.target.files[0];
+    const file = event.target.files[0];              //for selecting file form input 
     handlefilechange(file);
   };
   const handleDrop = (events) => {
@@ -75,7 +82,7 @@ export function FileBox({Onsave})
 
   }
   const handleupload = () => {
-    handlefileupload(selectedFile);
+    handlefileupload(selectedFile);                   
    
   };
   const handleClosePopup=()=>
@@ -87,14 +94,10 @@ export function FileBox({Onsave})
   return (
     <> 
 
-    <div className="maindiv">
-
-    
+    <div className="maindiv">    
     <div className="prevfile">  
-   
-    {responsefetched&&uploadedFile&& <PrevDoc selectedFile={selectedFile}></PrevDoc>} 
+    {responsefetched&&<PrevDoc uploadedFiles={uploadedFiles}></PrevDoc>}       {/*for recent uploaded files    */}
     </div>
-
      <div className="outerdrag">             
      <div className="drag-drop"
         onDrop={handleDrop}
@@ -104,12 +107,14 @@ export function FileBox({Onsave})
         <label htmlFor="file-upload" > Click To Select the File   </label>
         <input type="file" onChange={handleclick} className="upload" id="file-upload"></input>
       </div> 
-      <button onClick={handleupload} className="submit"> submit</button>
+      <button onClick={handleupload}  className="submit"> submit</button>
     
       </div>
       { popup&&(<Popup onClose={handleClosePopup}></Popup>)}
 
+
       </div>
+      <Result data={data}></Result>
     </>
     
 
