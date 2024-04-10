@@ -17,13 +17,8 @@ export function PrevDoc({uploadedFiles})
 <tbody>                                                                                       {/*for display files mapping through array   */}
   {Array.isArray(uploadedFiles)&&uploadedFiles.map((file,index)=>( <tr key={index}>             
     <td>{file.name}</td>
-
-
-
-
-
-
-
+    <td> {file.type}</td>
+    {/* <td>{file.lastModified}</td> */}
   </tr>))}
   {/* <tr>
 
@@ -33,8 +28,7 @@ export function PrevDoc({uploadedFiles})
   </tr> */}
 
 </tbody>
-</table>  
-         
+</table>      
       </div>
       
       </>

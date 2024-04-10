@@ -3,6 +3,12 @@ import { useEffect, useState } from "react";
 import { PrevDoc } from "./PrevDoc";
 import { Popup } from "./Popup";
 import { Result } from "./Result";
+import { Link, useNavigate } from 'react-router-dom';
+
+
+
+
+
 
 export function FileBox() 
 {
@@ -10,7 +16,9 @@ export function FileBox()
   const [uploadedFiles, setUploadedFiles] = useState([ ]);         //uploading file to transmit to prevdoc for viewong recent files
   const [responsefetched, Setresponsefetched] = useState(false)     //to check response is get
   const[popup,Setpopup]=useState(false)                           //how recive pop up if no file is seclected
-  const[data,Setdata]=useState([])                                //for response fetched on ocr
+  const[data,Setdata]=useState([])   //for response fetched on ocr
+const navigate= useNavigate();
+
 
 
   const handlefilechange = (file) => {                           
@@ -38,11 +46,12 @@ export function FileBox()
           console.log("ocr resulr", data);
           Setresponsefetched(true)
           setUploadedFiles([selectedFile].concat(uploadedFiles))
-          Setdata(data)
           setSelectedFile(false)
-          
-       
-     
+          Setdata(data)
+          navigate('/fetchdata',{state:{data:data,
+            selectedFile:selectedFile
+
+          }});
         }
         else {
           console.error('error', response.statusText);
@@ -114,7 +123,7 @@ export function FileBox()
 
 
       </div>
-      <Result data={data}></Result>
+    
     </>
     
 

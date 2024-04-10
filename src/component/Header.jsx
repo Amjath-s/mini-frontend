@@ -10,10 +10,7 @@ export function Header()
           <Navbar.Brand href="#">DOCINTELLIGENCE</Navbar.Brand>
         </Container>
       </Navbar>
-    </Container>
-        
-        
-        
+    </Container>  
         </>
      );
 }
