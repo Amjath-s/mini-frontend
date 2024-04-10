@@ -1,3 +1,5 @@
+
+
 .header{
   color:beige;
   background-color: lightseagreen;
@@ -64,6 +66,7 @@ p,label{
   background-color:rgb(62, 71, 86);
   margin-left: 40px;
   /* height: 900px; */
+ margin-top: 10px;
 
 }
 .maindiv{
@@ -71,6 +74,8 @@ p,label{
   background-color:rgb(11, 15, 26);
   justify-content: space-around;
   height:100vh;
+
+
 
  }
 
@@ -121,7 +126,41 @@ p,label{
    gap: 10px ;/* Space between elements within popup */
   
 }
+.previousfile{
+  margin-top: 50px;
+}
+/* .fetchview{
+  background-color:blue;
+  height: 100lvh
+} */
+/* h6
+{font-size: large;
+background-color: brown;
+color: blue;} */
 
+
+.dataview{
+  color: black;
+}
+
+
+.result-container {
+  display: flex; /* Make the container a flexbox */
+  flex-direction: row;  /* Arrange elements side-by-side */
+  width: 100%; /* Take full width of the screen */
+}
+
+.data-section,
+.preview-section {
+  flex: 1; /* Make each section occupy half the width */
+  padding: 10px;  /* Add some padding for aesthetics */
+}
+
+.preview-section img,
+.preview-section iframe {
+  max-width: 100%;  /* Ensure image/PDF doesn't overflow */
+  height: auto;  /* Adjust height based on content */
+}
 
 
 
